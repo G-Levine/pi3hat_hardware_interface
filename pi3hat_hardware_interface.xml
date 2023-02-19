@@ -1,0 +1,9 @@
+<library path="pi3hat_hardware_interface">
+
+  <class name="pi3hat_hardware_interface/Pi3HatHardwareInterface" type="pi3hat_hardware_interface::Pi3HatHardwareInterface" base_class_type="hardware_interface::SystemInterface">
+    <description>
+      mjbots pi3hat interface
+    </description>
+  </class>
+
+</library>

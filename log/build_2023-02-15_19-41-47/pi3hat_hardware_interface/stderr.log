@@ -1,0 +1,5 @@
+In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:24:57:[m[K [01;35m[Kwarning: [m[Kextra ‘[01m[K;[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wpedantic-Wpedantic]8;;[m[K]
+   24 |   RCLCPP_SHARED_PTR_DEFINITIONS(Pi3HatHardwareInterface)[01;35m[K;[m[K
+      |                                                         [01;35m[K^[m[K
+      |                                                         [31m[K-[m[K

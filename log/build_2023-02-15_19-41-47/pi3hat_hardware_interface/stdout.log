@@ -1,0 +1,34 @@
+[35m[1mConsolidate compiler generated dependencies of target pi3hat_hardware_interface[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/pi3hat_hardware_interface.dir/src/pi3hat_hardware_interface.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library libpi3hat_hardware_interface.so[0m
+[100%] Built target pi3hat_hardware_interface
+-- Install configuration: ""
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/pi3hat_hardware_interface.xml
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/lib/libpi3hat_hardware_interface.so
+-- Set runtime path of "/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/lib/libpi3hat_hardware_interface.so" to ""
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/include
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/include/pi3hat_hardware_interface
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat.h
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat.cpp
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/environment/library_path.sh
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/environment/library_path.dsv
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/ament_index/resource_index/package_run_dependencies/pi3hat_hardware_interface
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/ament_index/resource_index/parent_prefix_path/pi3hat_hardware_interface
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/environment/ament_prefix_path.sh
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/environment/ament_prefix_path.dsv
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/environment/path.sh
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/environment/path.dsv
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/local_setup.bash
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/local_setup.sh
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/local_setup.zsh
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/local_setup.dsv
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/package.dsv
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/ament_index/resource_index/packages/pi3hat_hardware_interface
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/ament_index/resource_index/hardware_interface__pluginlib__plugin/pi3hat_hardware_interface
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/cmake/pi3hat_hardware_interfaceConfig.cmake
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/cmake/pi3hat_hardware_interfaceConfig-version.cmake
+-- Up-to-date: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/install/pi3hat_hardware_interface/share/pi3hat_hardware_interface/package.xml

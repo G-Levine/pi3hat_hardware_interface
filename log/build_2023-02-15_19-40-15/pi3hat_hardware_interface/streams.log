@@ -1,0 +1,146 @@
+[0.017s] Invoking command in '/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/build/pi3hat_hardware_interface': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/build/pi3hat_hardware_interface -- -j8 -l8
+[0.053s] -- Found ament_cmake: 1.3.2 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.230s] -- Found pluginlib: 5.1.0 (/opt/ros/humble/share/pluginlib/cmake)
+[0.262s] -- Found hardware_interface: 2.20.0 (/opt/ros/humble/share/hardware_interface/cmake)
+[0.277s] -- Found rosidl_generator_c: 3.1.3 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.279s] -- Found rosidl_adapter: 3.1.3 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.284s] -- Found rosidl_generator_cpp: 3.1.3 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.294s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.305s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.940s] -- Found rmw_implementation_cmake: 6.1.0 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.941s] -- Found rmw_fastrtps_cpp: 6.2.1 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.081s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.303s] -- Found ament_lint_auto: 0.12.4 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.569s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.570s] -- Configured cppcheck include dirs: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include
+[1.570s] -- Configured cppcheck exclude dirs and/or files: 
+[1.589s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.628s] -- Added test 'lint_cmake' to check CMake code style
+[1.647s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[1.808s] -- Added test 'uncrustify' to check C / C++ code style
+[1.808s] -- Configured uncrustify additional arguments: 
+[1.828s] -- Added test 'xmllint' to check XML markup files
+[1.851s] -- Configuring done
+[1.912s] -- Generating done
+[1.924s] -- Build files have been written to: /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/build/pi3hat_hardware_interface
+[1.969s] [ 50%] [32mBuilding CXX object CMakeFiles/pi3hat_hardware_interface.dir/src/pi3hat_hardware_interface.cpp.o[0m
+[2.888s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[2.889s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:24:57:[m[K [01;35m[Kwarning: [m[Kextra ‘[01m[K;[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wpedantic-Wpedantic]8;;[m[K]
+[2.889s]    24 |   RCLCPP_SHARED_PTR_DEFINITIONS(Pi3HatHardwareInterface)[01;35m[K;[m[K
+[2.889s]       |                                                         [01;35m[K^[m[K
+[2.890s]       |                                                         [31m[K-[m[K
+[2.892s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:26:3:[m[K [01;31m[Kerror: [m[K‘[01m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K’ does not name a type; did you mean ‘[01m[KHARDWARE_INTERFACE_PUBLIC[m[K’?
+[2.892s]    26 |   [01;31m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K
+[2.892s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.892s]       |   [32m[KHARDWARE_INTERFACE_PUBLIC[m[K
+[2.895s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:30:3:[m[K [01;31m[Kerror: [m[K‘[01m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K’ does not name a type; did you mean ‘[01m[KHARDWARE_INTERFACE_PUBLIC[m[K’?
+[2.895s]    30 |   [01;31m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K
+[2.895s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.896s]       |   [32m[KHARDWARE_INTERFACE_PUBLIC[m[K
+[2.898s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:33:3:[m[K [01;31m[Kerror: [m[K‘[01m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K’ does not name a type; did you mean ‘[01m[KHARDWARE_INTERFACE_PUBLIC[m[K’?
+[2.898s]    33 |   [01;31m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K
+[2.898s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.899s]       |   [32m[KHARDWARE_INTERFACE_PUBLIC[m[K
+[2.901s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:36:3:[m[K [01;31m[Kerror: [m[K‘[01m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K’ does not name a type; did you mean ‘[01m[KHARDWARE_INTERFACE_PUBLIC[m[K’?
+[2.902s]    36 |   [01;31m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K
+[2.902s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.902s]       |   [32m[KHARDWARE_INTERFACE_PUBLIC[m[K
+[2.904s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:40:3:[m[K [01;31m[Kerror: [m[K‘[01m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K’ does not name a type; did you mean ‘[01m[KHARDWARE_INTERFACE_PUBLIC[m[K’?
+[2.904s]    40 |   [01;31m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K
+[2.905s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.905s]       |   [32m[KHARDWARE_INTERFACE_PUBLIC[m[K
+[2.907s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:44:3:[m[K [01;31m[Kerror: [m[K‘[01m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K’ does not name a type; did you mean ‘[01m[KHARDWARE_INTERFACE_PUBLIC[m[K’?
+[2.908s]    44 |   [01;31m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K
+[2.908s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.908s]       |   [32m[KHARDWARE_INTERFACE_PUBLIC[m[K
+[2.910s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:48:3:[m[K [01;31m[Kerror: [m[K‘[01m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K’ does not name a type; did you mean ‘[01m[KHARDWARE_INTERFACE_PUBLIC[m[K’?
+[2.911s]    48 |   [01;31m[KPI3HAT_HARDWARE_INTERFACE_PUBLIC[m[K
+[2.911s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.912s]       |   [32m[KHARDWARE_INTERFACE_PUBLIC[m[K
+[4.062s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:14:36:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Khardware_interface::CallbackReturn pi3hat_hardware_interface::Pi3HatHardwareInterface::on_init(const hardware_interface::HardwareInfo&)[m[K’
+[4.063s]    14 | hardware_interface::CallbackReturn [01;31m[KPi3HatHardwareInterface[m[K::on_init(
+[4.063s]       |                                    [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.064s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:14:36:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Khardware_interface::CallbackReturn pi3hat_hardware_interface::Pi3HatHardwareInterface::on_init(const hardware_interface::HardwareInfo&)[m[K’
+[4.064s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.064s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass pi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’ defined here
+[4.064s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.065s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.065s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:88:49:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kstd::vector<hardware_interface::StateInterface> pi3hat_hardware_interface::Pi3HatHardwareInterface::export_state_interfaces()[m[K’
+[4.065s]    88 | std::vector<hardware_interface::StateInterface> [01;31m[KPi3HatHardwareInterface[m[K::export_state_interfaces()
+[4.065s]       |                                                 [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.066s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:88:49:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Kstd::vector<hardware_interface::StateInterface> pi3hat_hardware_interface::Pi3HatHardwareInterface::export_state_interfaces()[m[K’
+[4.066s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.066s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass pi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’ defined here
+[4.067s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.067s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.067s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:102:51:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kstd::vector<hardware_interface::CommandInterface> pi3hat_hardware_interface::Pi3HatHardwareInterface::export_command_interfaces()[m[K’
+[4.068s]   102 | std::vector<hardware_interface::CommandInterface> [01;31m[KPi3HatHardwareInterface[m[K::export_command_interfaces()
+[4.068s]       |                                                   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.068s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:102:51:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Kstd::vector<hardware_interface::CommandInterface> pi3hat_hardware_interface::Pi3HatHardwareInterface::export_command_interfaces()[m[K’
+[4.068s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.069s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass pi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’ defined here
+[4.069s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.069s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.069s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:114:36:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Khardware_interface::CallbackReturn pi3hat_hardware_interface::Pi3HatHardwareInterface::on_activate(const rclcpp_lifecycle::State&)[m[K’
+[4.070s]   114 | hardware_interface::CallbackReturn [01;31m[KPi3HatHardwareInterface[m[K::on_activate(
+[4.070s]       |                                    [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.070s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:114:36:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Khardware_interface::CallbackReturn pi3hat_hardware_interface::Pi3HatHardwareInterface::on_activate(const rclcpp_lifecycle::State&)[m[K’
+[4.070s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.071s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass pi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’ defined here
+[4.071s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.071s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.071s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:144:36:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Khardware_interface::CallbackReturn pi3hat_hardware_interface::Pi3HatHardwareInterface::on_deactivate(const rclcpp_lifecycle::State&)[m[K’
+[4.072s]   144 | hardware_interface::CallbackReturn [01;31m[KPi3HatHardwareInterface[m[K::on_deactivate(
+[4.072s]       |                                    [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.072s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:144:36:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Khardware_interface::CallbackReturn pi3hat_hardware_interface::Pi3HatHardwareInterface::on_deactivate(const rclcpp_lifecycle::State&)[m[K’
+[4.072s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.073s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass pi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’ defined here
+[4.073s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.073s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.073s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:163:33:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Khardware_interface::return_type pi3hat_hardware_interface::Pi3HatHardwareInterface::read(const rclcpp::Time&, const rclcpp::Duration&)[m[K’
+[4.074s]   163 | hardware_interface::return_type [01;31m[KPi3HatHardwareInterface[m[K::read(
+[4.074s]       |                                 [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.074s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:163:33:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Khardware_interface::return_type pi3hat_hardware_interface::Pi3HatHardwareInterface::read(const rclcpp::Time&, const rclcpp::Duration&)[m[K’
+[4.074s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.075s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass pi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’ defined here
+[4.075s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.075s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.075s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:202:33:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Khardware_interface::return_type pi3hat_hardware_interface::Pi3HatHardwareInterface::write(const rclcpp::Time&, const rclcpp::Duration&)[m[K’
+[4.076s]   202 | hardware_interface::return_type [01;31m[Kpi3hat_hardware_interface[m[K::Pi3HatHardwareInterface::write(
+[4.076s]       |                                 [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.076s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:202:33:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Khardware_interface::return_type pi3hat_hardware_interface::Pi3HatHardwareInterface::write(const rclcpp::Time&, const rclcpp::Duration&)[m[K’
+[4.077s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.077s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass pi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’ defined here
+[4.077s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.078s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.382s] In file included from [01m[K/opt/ros/humble/include/class_loader/class_loader/class_loader_core.hpp:57[m[K,
+[4.382s]                  from [01m[K/opt/ros/humble/include/class_loader/class_loader/class_loader.hpp:55[m[K,
+[4.382s]                  from [01m[K/opt/ros/humble/include/pluginlib/pluginlib/class_list_macros.hpp:40[m[K,
+[4.382s]                  from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:223[m[K:
+[4.383s] /opt/ros/humble/include/class_loader/class_loader/meta_object.hpp: In instantiation of ‘[01m[KB* class_loader::impl::MetaObject<C, B>::create() const [with C = pi3hat_hardware_interface::Pi3HatHardwareInterface; B = hardware_interface::SystemInterface][m[K’:
+[4.383s] [01m[K/opt/ros/humble/include/class_loader/class_loader/meta_object.hpp:216:7:[m[K   required from here
+[4.383s] [01m[K/opt/ros/humble/include/class_loader/class_loader/meta_object.hpp:218:12:[m[K [01;31m[Kerror: [m[Kinvalid new-expression of abstract class type ‘[01m[Kpi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’
+[4.384s]   218 |     return [01;31m[Knew C[m[K;
+[4.384s]       |            [01;31m[K^~~~~[m[K
+[4.384s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.384s] [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:21:7:[m[K [01;36m[Knote: [m[K  because the following virtual functions are pure within ‘[01m[Kpi3hat_hardware_interface::Pi3HatHardwareInterface[m[K’:
+[4.385s]    21 | class [01;36m[KPi3HatHardwareInterface[m[K : public hardware_interface::SystemInterface
+[4.385s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.385s] In file included from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/include/pi3hat_hardware_interface/pi3hat_hardware_interface.hpp:10[m[K,
+[4.385s]                  from [01m[K/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/src/pi3hat_hardware_interface.cpp:1[m[K:
+[4.386s] [01m[K/opt/ros/humble/include/hardware_interface/system_interface.hpp:111:39:[m[K [01;36m[Knote: [m[K    ‘[01m[Kvirtual std::vector<hardware_interface::StateInterface> hardware_interface::SystemInterface::export_state_interfaces()[m[K’
+[4.386s]   111 |   virtual std::vector<StateInterface> [01;36m[Kexport_state_interfaces[m[K() = 0;
+[4.386s]       |                                       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.387s] [01m[K/opt/ros/humble/include/hardware_interface/system_interface.hpp:122:41:[m[K [01;36m[Knote: [m[K    ‘[01m[Kvirtual std::vector<hardware_interface::CommandInterface> hardware_interface::SystemInterface::export_command_interfaces()[m[K’
+[4.387s]   122 |   virtual std::vector<CommandInterface> [01;36m[Kexport_command_interfaces[m[K() = 0;
+[4.387s]       |                                         [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.387s] [01m[K/opt/ros/humble/include/hardware_interface/system_interface.hpp:173:23:[m[K [01;36m[Knote: [m[K    ‘[01m[Kvirtual hardware_interface::return_type hardware_interface::SystemInterface::read(const rclcpp::Time&, const rclcpp::Duration&)[m[K’
+[4.388s]   173 |   virtual return_type [01;36m[Kread[m[K(const rclcpp::Time & time, const rclcpp::Duration & period) = 0;
+[4.388s]       |                       [01;36m[K^~~~[m[K
+[4.388s] [01m[K/opt/ros/humble/include/hardware_interface/system_interface.hpp:184:23:[m[K [01;36m[Knote: [m[K    ‘[01m[Kvirtual hardware_interface::return_type hardware_interface::SystemInterface::write(const rclcpp::Time&, const rclcpp::Duration&)[m[K’
+[4.389s]   184 |   virtual return_type [01;36m[Kwrite[m[K(const rclcpp::Time & time, const rclcpp::Duration & period) = 0;
+[4.389s]       |                       [01;36m[K^~~~~[m[K
+[4.436s] gmake[2]: *** [CMakeFiles/pi3hat_hardware_interface.dir/build.make:76: CMakeFiles/pi3hat_hardware_interface.dir/src/pi3hat_hardware_interface.cpp.o] Error 1
+[4.436s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/pi3hat_hardware_interface.dir/all] Error 2
+[4.437s] gmake: *** [Makefile:146: all] Error 2
+[4.439s] Invoked command in '/media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/build/pi3hat_hardware_interface' returned '2': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /media/psf/GitHub/rhea_ws/src/pi3hat_hardware_interface/build/pi3hat_hardware_interface -- -j8 -l8
