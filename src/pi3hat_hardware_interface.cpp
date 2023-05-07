@@ -27,7 +27,7 @@ namespace pi3hat_hardware_interface
     // Hardware interface
     //----------------------------------------------------------------------
 
-    hardware_interface::CallbackReturn Pi3HatHardware::on_init(
+    hardware_interface::CallbackReturn Pi3HatHardwareInterface::on_init(
         const hardware_interface::HardwareInfo &info)
     {
         if (
@@ -62,7 +62,7 @@ namespace pi3hat_hardware_interface
         pi3hat_ = new mjbots::pi3hat::Pi3Hat(config);
 
         // Initialize the Pi3Hat input
-        pi3hat_input_ = mjbots::pi3hat::Pi3Hat::Input();
+        pi3hat_input_ = mjbots::pi3hat::Pi3Hat::Input;
 
         hw_state_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
         hw_state_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
@@ -81,7 +81,7 @@ namespace pi3hat_hardware_interface
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
-    std::vector<hardware_interface::StateInterface> Pi3HatHardware::export_state_interfaces()
+    std::vector<hardware_interface::StateInterface> Pi3HatHardwareInterface::export_state_interfaces()
     {
         std::vector<hardware_interface::StateInterface> state_interfaces;
 
@@ -121,7 +121,7 @@ namespace pi3hat_hardware_interface
         return state_interfaces;
     }
 
-    std::vector<hardware_interface::CommandInterface> Pi3HatHardware::export_command_interfaces()
+    std::vector<hardware_interface::CommandInterface> Pi3HatHardwareInterface::export_command_interfaces()
     {
         std::vector<hardware_interface::CommandInterface> command_interfaces;
         for (auto i = 0u; i < info_.joints.size(); i++)
@@ -141,23 +141,23 @@ namespace pi3hat_hardware_interface
         return command_interfaces;
     }
 
-    hardware_interface::CallbackReturn Pi3HatHardware::on_activate(
+    hardware_interface::CallbackReturn Pi3HatHardwareInterface::on_activate(
         const rclcpp_lifecycle::State & /*previous_state*/)
     {
-        RCLCPP_INFO(rclcpp::get_logger("Pi3HatHardware"), "Successfully activated!");
+        RCLCPP_INFO(rclcpp::get_logger("Pi3HatHardwareInterface"), "Successfully activated!");
 
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
-    hardware_interface::CallbackReturn Pi3HatHardware::on_deactivate(
+    hardware_interface::CallbackReturn Pi3HatHardwareInterface::on_deactivate(
         const rclcpp_lifecycle::State & /*previous_state*/)
     {
-        RCLCPP_INFO(rclcpp::get_logger("Pi3HatHardware"), "Successfully deactivated!");
+        RCLCPP_INFO(rclcpp::get_logger("Pi3HatHardwareInterface"), "Successfully deactivated!");
 
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
-    hardware_interface::return_type Pi3HatHardware::read(
+    hardware_interface::return_type Pi3HatHardwareInterface::read(
         const rclcpp::Time & /*time*/, const rclcpp::Duration &period)
     {
         // Update the IMU state if attitude data is available
@@ -178,7 +178,7 @@ namespace pi3hat_hardware_interface
         return hardware_interface::return_type::OK;
     }
 
-    hardware_interface::return_type pi3hat_hardware_interface::Pi3HatHardware::write(
+    hardware_interface::return_type pi3hat_hardware_interface::Pi3HatHardwareInterface::write(
         const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
         pi3hat_input_.request_attitude = true;
@@ -188,7 +188,7 @@ namespace pi3hat_hardware_interface
 
         if (result.error)
         {
-            RCLCPP_ERROR(rclcpp::get_logger("Pi3HatHardware"), "Pi3Hat::Cycle() failed!");
+            RCLCPP_ERROR(rclcpp::get_logger("Pi3HatHardwareInterface"), "Pi3Hat::Cycle() failed!");
             return hardware_interface::return_type::ERROR;
         }
 
@@ -199,4 +199,4 @@ namespace pi3hat_hardware_interface
 
 #include "pluginlib/class_list_macros.hpp"
 PLUGINLIB_EXPORT_CLASS(
-    pi3hat_hardware_interface::Pi3HatHardware, hardware_interface::SystemInterface)
+    pi3hat_hardware_interface::Pi3HatHardwareInterface, hardware_interface::SystemInterface)

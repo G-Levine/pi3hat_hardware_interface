@@ -20,10 +20,10 @@
 
 namespace pi3hat_hardware_interface
 {
-    class Pi3HatHardware : public hardware_interface::SystemInterface
+    class Pi3HatHardwareInterface : public hardware_interface::SystemInterface
     {
     public:
-        RCLCPP_SHARED_PTR_DEFINITIONS(Pi3HatHardware)
+        RCLCPP_SHARED_PTR_DEFINITIONS(Pi3HatHardwareInterface)
 
         struct ImpedanceCommand {
             double position;
@@ -79,6 +79,6 @@ namespace pi3hat_hardware_interface
         std::vector<double> hw_command_kds_;
     };
 
-} // namespace ros2_control_demo_hardware
+} // namespace pi3hat_hardware_interface
 
 #endif // PI3HAT_HARDWARE_INTERFACE_PUBLIC__PI3HAT_HARDWARE_INTERFACE_HPP_
