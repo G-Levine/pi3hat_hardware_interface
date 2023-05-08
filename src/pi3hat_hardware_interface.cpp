@@ -1,5 +1,4 @@
 #include "pi3hat_hardware_interface/pi3hat_hardware_interface.hpp"
-#include "pi3hat_hardware_interface/pi3hat.h"
 
 #include <chrono>
 #include <cmath>
@@ -23,10 +22,6 @@
 
 namespace pi3hat_hardware_interface
 {
-    //----------------------------------------------------------------------
-    // Hardware interface
-    //----------------------------------------------------------------------
-
     hardware_interface::CallbackReturn Pi3HatHardwareInterface::on_init(
         const hardware_interface::HardwareInfo &info)
     {
@@ -62,7 +57,9 @@ namespace pi3hat_hardware_interface
         pi3hat_ = new mjbots::pi3hat::Pi3Hat(config);
 
         // Initialize the Pi3Hat input
-        pi3hat_input_ = mjbots::pi3hat::Pi3Hat::Input;
+        pi3hat_input_ = mjbots::pi3hat::Pi3Hat::Input();
+        mjbots::pi3hat::Attitude attitude_;
+        pi3hat_input_.attitude = &attitude_;
 
         hw_state_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
         hw_state_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
@@ -98,27 +95,48 @@ namespace pi3hat_hardware_interface
 
         // Add IMU state interfaces
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "orientation.x", &hw_state_imu_orientation_[0]));
+            "imu_sensor", "orientation.x", &hw_state_imu_orientation_[0]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "orientation.y", &hw_state_imu_orientation_[1]));
+            "imu_sensor", "orientation.y", &hw_state_imu_orientation_[1]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "orientation.z", &hw_state_imu_orientation_[2]));
+            "imu_sensor", "orientation.z", &hw_state_imu_orientation_[2]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "orientation.w", &hw_state_imu_orientation_[3]));
+            "imu_sensor", "orientation.w", &hw_state_imu_orientation_[3]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "angular_velocity.x", &hw_state_imu_angular_velocity_[0]));
+            "imu_sensor", "angular_velocity.x", &hw_state_imu_angular_velocity_[0]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "angular_velocity.y", &hw_state_imu_angular_velocity_[1]));
+            "imu_sensor", "angular_velocity.y", &hw_state_imu_angular_velocity_[1]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "angular_velocity.z", &hw_state_imu_angular_velocity_[2]));
+            "imu_sensor", "angular_velocity.z", &hw_state_imu_angular_velocity_[2]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "linear_acceleration.x", &hw_state_imu_linear_acceleration_[0]));
+            "imu_sensor", "linear_acceleration.x", &hw_state_imu_linear_acceleration_[0]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "linear_acceleration.y", &hw_state_imu_linear_acceleration_[1]));
+            "imu_sensor", "linear_acceleration.y", &hw_state_imu_linear_acceleration_[1]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
-            "imu", "linear_acceleration.z", &hw_state_imu_linear_acceleration_[2]));
+            "imu_sensor", "linear_acceleration.z", &hw_state_imu_linear_acceleration_[2]));
 
         return state_interfaces;
+    }
+
+    hardware_interface::CallbackReturn Pi3HatHardwareInterface::on_configure(
+    const rclcpp_lifecycle::State & /*previous_state*/)
+    {
+        // reset values always when configuring hardware
+        for (uint i = 0; i < hw_state_positions_.size(); i++)
+        {
+            hw_state_positions_[i] = 0;
+            hw_state_velocities_[i] = 0;
+            hw_state_efforts_[i] = 0;
+            hw_command_positions_[i] = 0;
+            hw_command_velocities_[i] = 0;
+            hw_command_efforts_[i] = 0;
+            hw_command_kps_[i] = 0;
+            hw_command_kds_[i] = 0;
+        }
+
+        RCLCPP_INFO(rclcpp::get_logger("Pi3HatHardwareInterface"), "Successfully configured!");
+
+        return hardware_interface::CallbackReturn::SUCCESS;
     }
 
     std::vector<hardware_interface::CommandInterface> Pi3HatHardwareInterface::export_command_interfaces()

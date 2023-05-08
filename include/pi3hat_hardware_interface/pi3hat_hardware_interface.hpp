@@ -16,7 +16,7 @@
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 
-#include "pi3hat.h"
+#include "pi3hat/pi3hat.h"
 
 namespace pi3hat_hardware_interface
 {
@@ -35,6 +35,9 @@ namespace pi3hat_hardware_interface
 
         hardware_interface::CallbackReturn on_init(
             const hardware_interface::HardwareInfo &info) override;
+
+        hardware_interface::CallbackReturn on_configure(
+            const rclcpp_lifecycle::State & previous_state) override;
 
         std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 

@@ -17,10 +17,19 @@ add_library(pi3hat_hardware_interface SHARED
   src/pi3hat_hardware_interface.cpp
 )
 
+add_library(pi3hat SHARED
+  include/pi3hat/pi3hat.cpp
+)
+
 # add include directory
 target_include_directories(pi3hat_hardware_interface
   PRIVATE
     include
+)
+
+target_link_libraries(pi3hat_hardware_interface
+  pi3hat
+  bcm_host
 )
 
 ament_target_dependencies(
@@ -39,8 +48,16 @@ install(
   DESTINATION lib
 )
 install(
+  TARGETS pi3hat
+  DESTINATION lib
+)
+install(
   DIRECTORY include/
   DESTINATION include
+)
+install(
+  DIRECTORY test/
+  DESTINATION test
 )
 
 if(BUILD_TESTING)
