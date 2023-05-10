@@ -25,19 +25,11 @@ namespace pi3hat_hardware_interface
     public:
         RCLCPP_SHARED_PTR_DEFINITIONS(Pi3HatHardwareInterface)
 
-        struct ImpedanceCommand {
-            double position;
-            double velocity;
-            double effort;
-            double Kp;
-            double Kd;
-        };
-
         hardware_interface::CallbackReturn on_init(
             const hardware_interface::HardwareInfo &info) override;
 
         hardware_interface::CallbackReturn on_configure(
-            const rclcpp_lifecycle::State & previous_state) override;
+            const rclcpp_lifecycle::State &previous_state) override;
 
         std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
@@ -56,18 +48,52 @@ namespace pi3hat_hardware_interface
             const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
     private:
-        mjbots::pi3hat::Pi3Hat* pi3hat_;
+        int float_to_uint(float x, float x_min, float x_max,
+                          int bits) const;
+        float uint_to_float(int x_int, float x_min, float x_max,
+                            int bits) const;
+
+        // Enum for CAN protocol types: cheetah, myactuator, or moteus
+        enum class CanProtocol
+        {
+            CHEETAH,    // MIT Mini Cheetah actuators, SteadyWin, CubeMars
+            MYACTUATOR, // MyActuator, LKMTech
+            MOTEUS      // Moteus (non-FD CAN)
+        };
+
+        const unsigned char cheetahEnableMsg[8] = {0xFF, 0xFF, 0xFF, 0xFF,
+                                                   0xFF, 0xFF, 0xFF, 0xFC};
+
+        const unsigned char cheetahDisableMsg[8] = {0xFF, 0xFF, 0xFF, 0xFF,
+                                                    0xFF, 0xFF, 0xFF, 0xFD};
+
+        const unsigned char cheetahSetZeroPositionMsg[8] = {0xFF, 0xFF, 0xFF, 0xFF,
+                                                            0xFF, 0xFF, 0xFF, 0xFE};
+
+        const unsigned char cheetahSetIdleCmdMsg[8] = {0x7F, 0xFF, 0x7F, 0xF0,
+                                                       0x00, 0x00, 0x07, 0xFF};
+
+        mjbots::pi3hat::Pi3Hat *pi3hat_;
         mjbots::pi3hat::Pi3Hat::Input pi3hat_input_;
 
         // IMU state
-        std::array<double, 4> hw_state_imu_orientation_; // x, y, z, w
-        std::array<double, 3> hw_state_imu_angular_velocity_; // x, y, z
+        std::array<double, 4> hw_state_imu_orientation_;         // x, y, z, w
+        std::array<double, 3> hw_state_imu_angular_velocity_;    // x, y, z
         std::array<double, 3> hw_state_imu_linear_acceleration_; // x, y, z
 
-        // Actuator parameters
+        // Actuator CAN config
         std::vector<int> hw_actuator_can_channels_;
         std::vector<int> hw_actuator_can_ids_;
-        std::vector<int> hw_actuator_directions_;
+        std::vector<CanProtocol> hw_actuator_can_protocols_;
+
+        // Actuator parameters
+        std::vector<double> hw_actuator_position_scales_;
+        std::vector<double> hw_actuator_velocity_scales_;
+        std::vector<double> hw_actuator_effort_scales_;
+        std::vector<double> hw_actuator_kp_scales_;
+        std::vector<double> hw_actuator_kd_scales_;
+        std::vector<int> hw_actuator_axis_directions_;
+        std::vector<double> hw_actuator_position_offsets_;
 
         // Actuator states
         std::vector<double> hw_state_positions_;
