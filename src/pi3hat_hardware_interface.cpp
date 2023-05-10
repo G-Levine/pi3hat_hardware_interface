@@ -42,34 +42,40 @@ namespace pi3hat_hardware_interface
         hw_command_kps_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
         hw_command_kds_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
 
+        int i = 0;
         for (const hardware_interface::ComponentInfo &joint : info_.joints)
         {
-            std::string can_protocol_string = joint.parameters["can_protocol"];
-            switch (can_protocol_string)
+            if ("cheetah" == joint.parameters.at("can_protocol"))
             {
-            case "cheetah":
                 hw_actuator_can_protocols_.push_back(CanProtocol::CHEETAH);
                 break;
-            case "myactuator":
+            }
+            else if ("myactuator" == joint.parameters.at("can_protocol"))
+            {
                 hw_actuator_can_protocols_.push_back(CanProtocol::MYACTUATOR);
                 break;
-            case "moteus":
+            }
+            else if ("moteus" == joint.parameters.at("can_protocol"))
+            {
                 hw_actuator_can_protocols_.push_back(CanProtocol::MOTEUS);
                 break;
-            default:
-                RCLCPP_ERROR(rclcpp::get_logger("Pi3HatHardwareInterface"), "can_protocol parameter %s does not match a valid protocol", can_protocol_string);
-                return hardware_interface::return_type::ERROR;
+            }
+            else
+            {
+                RCLCPP_ERROR(rclcpp::get_logger("Pi3HatHardwareInterface"), "can_protocol parameter does not match a valid protocol");
+                return hardware_interface::CallbackReturn::ERROR;
             }
 
-            hw_actuator_can_channels_.push_back(joint.parameters["can_channel"]);
-            hw_actuator_can_ids_.push_back(joint.parameters["can_id"]);
-            hw_actuator_position_scales_.push_back(joint.parameters["position_scale"]);
-            hw_actuator_velocity_scales_.push_back(joint.parameters["velocity_scale"]);
-            hw_actuator_effort_scales_.push_back(joint.parameters["effort_scale"]);
-            hw_actuator_kp_scales_.push_back(joint.parameters["kp_scale"]);
-            hw_actuator_kd_scales_.push_back(joint.parameters["kd_scale"]);
-            hw_actuator_axis_directions_.push_back(joint.parameters["axis_direction"]);
-            hw_actuator_position_offsets_.push_back(joint.parameters["position_offset"]);
+            hw_actuator_can_channels_.push_back(std::stoi(joint.parameters.at("can_channel")));
+            hw_actuator_can_ids_.push_back(std::stoi(joint.parameters.at("can_id")));
+            hw_actuator_position_scales_.push_back(std::stod(joint.parameters.at("position_scale")));
+            hw_actuator_velocity_scales_.push_back(std::stod(joint.parameters.at("velocity_scale")));
+            hw_actuator_effort_scales_.push_back(std::stod(joint.parameters.at("effort_scale")));
+            hw_actuator_kp_scales_.push_back(std::stod(joint.parameters.at("kp_scale")));
+            hw_actuator_kd_scales_.push_back(std::stod(joint.parameters.at("kd_scale")));
+            hw_actuator_axis_directions_.push_back(std::stoi(joint.parameters.at("axis_direction")));
+            hw_actuator_position_offsets_.push_back(std::stod(joint.parameters.at("position_offset")));
+            i++;
         }
 
         // Configure the Pi3Hat CAN for non-FD mode without bitrate switching or automatic retranmission
@@ -83,9 +89,9 @@ namespace pi3hat_hardware_interface
         config.attitude_rate_hz = 1000;
 
         // Set the mounting orientation of the IMU
-        config.mounting_deg.yaw = 0;
-        config.mounting_deg.pitch = 0;
-        config.mounting_deg.roll = 0;
+        config.mounting_deg.yaw = std::stod(info_.hardware_parameters.at("imu_mounting_deg.yaw"));
+        config.mounting_deg.pitch = std::stod(info_.hardware_parameters.at("imu_mounting_deg.pitch"));
+        config.mounting_deg.roll = std::stod(info_.hardware_parameters.at("imu_mounting_deg.roll"));
 
         // Initialize the Pi3Hat input
         pi3hat_input_ = mjbots::pi3hat::Pi3Hat::Input();
@@ -165,7 +171,7 @@ namespace pi3hat_hardware_interface
 
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
-            switch (hw_actuator_can_protocols_)
+            switch (hw_actuator_can_protocols_[i])
             {
             case CanProtocol::CHEETAH:
                 std::copy(std::begin(cheetahSetZeroPositionMsg), std::end(cheetahSetZeroPositionMsg), std::begin(pi3hat_input_.rx_can[i].data));
@@ -204,10 +210,9 @@ namespace pi3hat_hardware_interface
     {
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
-            switch (hw_actuator_can_protocols_)
+            switch (hw_actuator_can_protocols_[i])
             {
             case CanProtocol::CHEETAH:
-                pi3hat_input_.rx_can[i].data = cheetahEnableMsg;
                 std::copy(std::begin(cheetahEnableMsg), std::end(cheetahEnableMsg), std::begin(pi3hat_input_.rx_can[i].data));
                 break;
             }
@@ -224,7 +229,7 @@ namespace pi3hat_hardware_interface
     {
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
-            switch (hw_actuator_can_protocols_)
+            switch (hw_actuator_can_protocols_[i])
             {
             case CanProtocol::CHEETAH:
                 // We send a command of all zeroes to the actuator efore disabling it
@@ -237,14 +242,14 @@ namespace pi3hat_hardware_interface
 
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
-            switch (hw_actuator_can_protocols_)
+            switch (hw_actuator_can_protocols_[i])
             {
             case CanProtocol::CHEETAH:
                 std::copy(std::begin(cheetahDisableMsg), std::end(cheetahDisableMsg), std::begin(pi3hat_input_.rx_can[i].data));
                 break;
             }
         }
-        const auto result = pi3hat_->Cycle(pi3hat_input_);
+        pi3hat_->Cycle(pi3hat_input_);
 
         RCLCPP_INFO(rclcpp::get_logger("Pi3HatHardwareInterface"), "Successfully deactivated!");
 
@@ -263,43 +268,45 @@ namespace pi3hat_hardware_interface
     {
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
-            switch (hw_actuator_can_protocols_)
+            switch (hw_actuator_can_protocols_[i])
             {
             case CanProtocol::CHEETAH:
-                float p_des = hw_command_positions_[i] * hw_actuator_axis_directions_[i] - hw_actuator_position_offsets_[i];
-                float v_des = hw_command_velocities_[i] * hw_actuator_axis_directions_[i];
-                float tau_ff = hw_command_efforts_[i] * hw_actuator_axis_directions_[i];
+                {
+                    float p_des = hw_command_positions_[i] * hw_actuator_axis_directions_[i] - hw_actuator_position_offsets_[i];
+                    float v_des = hw_command_velocities_[i] * hw_actuator_axis_directions_[i];
+                    float tau_ff = hw_command_efforts_[i] * hw_actuator_axis_directions_[i];
 
-                // Apply Saturation based on the limits
-                p_des = fminf(fmaxf(-hw_actuator_position_scales_[i], p_des), hw_actuator_position_scales_[i]);
-                v_des = fminf(fmaxf(-hw_actuator_velocity_scales_[i], v_des), hw_actuator_velocity_scales_[i]);
-                tau_ff = fminf(fmaxf(-hw_actuator_effort_scales_[i], tau_ff), hw_actuator_effort_scales_[i]);
-                float kp = fminf(fmaxf(0.0, hw_command_kps_[i]), hw_actuator_kp_scales_[i]);
-                float kd = fminf(fmaxf(0.0, hw_command_kds_[i]), hw_actuator_kd_scales_[i]);
+                    // Apply Saturation based on the limits
+                    p_des = fminf(fmaxf(-hw_actuator_position_scales_[i], p_des), hw_actuator_position_scales_[i]);
+                    v_des = fminf(fmaxf(-hw_actuator_velocity_scales_[i], v_des), hw_actuator_velocity_scales_[i]);
+                    tau_ff = fminf(fmaxf(-hw_actuator_effort_scales_[i], tau_ff), hw_actuator_effort_scales_[i]);
+                    float kp = fminf(fmaxf(0.0, hw_command_kps_[i]), hw_actuator_kp_scales_[i]);
+                    float kd = fminf(fmaxf(0.0, hw_command_kds_[i]), hw_actuator_kd_scales_[i]);
 
-                // convert floats to unsigned ints
-                int p_int =
-                    float_to_uint(p_des, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16);
-                int v_int =
-                    float_to_uint(v_des, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12);
-                int kp_int =
-                    float_to_uint(kp, 0.0, hw_actuator_kp_scales_[i], 12);
-                int kd_int =
-                    float_to_uint(kd, 0.0, hw_actuator_kd_scales_[i], 12);
-                int t_int =
-                    float_to_uint(tau_ff, -hw_actuator_effort_scales_[i], hw_actuator_effort_scales_[i], 12);
+                    // convert floats to unsigned ints
+                    int p_int =
+                        float_to_uint(p_des, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16);
+                    int v_int =
+                        float_to_uint(v_des, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12);
+                    int kp_int =
+                        float_to_uint(kp, 0.0, hw_actuator_kp_scales_[i], 12);
+                    int kd_int =
+                        float_to_uint(kd, 0.0, hw_actuator_kd_scales_[i], 12);
+                    int t_int =
+                        float_to_uint(tau_ff, -hw_actuator_effort_scales_[i], hw_actuator_effort_scales_[i], 12);
 
-                // pack ints into the can message
-                pi3hat_input_.tx_can.data[0] = p_int >> 8;
-                pi3hat_input_.tx_can.data[1] = p_int & 0xFF;
-                pi3hat_input_.tx_can.data[2] = v_int >> 4;
-                pi3hat_input_.tx_can.data[3] = ((v_int & 0xF) << 4) | (kp_int >> 8);
-                pi3hat_input_.tx_can.data[4] = kp_int & 0xFF;
-                pi3hat_input_.tx_can.data[5] = kd_int >> 4;
-                pi3hat_input_.tx_can.data[6] = ((kd_int & 0xF) << 4) | (t_int >> 8);
-                pi3hat_input_.tx_can.data[7] = t_int & 0xff;
+                    // pack ints into the can message
+                    pi3hat_input_.tx_can[i].data[0] = p_int >> 8;
+                    pi3hat_input_.tx_can[i].data[1] = p_int & 0xFF;
+                    pi3hat_input_.tx_can[i].data[2] = v_int >> 4;
+                    pi3hat_input_.tx_can[i].data[3] = ((v_int & 0xF) << 4) | (kp_int >> 8);
+                    pi3hat_input_.tx_can[i].data[4] = kp_int & 0xFF;
+                    pi3hat_input_.tx_can[i].data[5] = kd_int >> 4;
+                    pi3hat_input_.tx_can[i].data[6] = ((kd_int & 0xF) << 4) | (t_int >> 8);
+                    pi3hat_input_.tx_can[i].data[7] = t_int & 0xff;
+                }
             default:
-                RCLCPP_ERROR(rclcpp::get_logger("Pi3HatHardwareInterface"), "Unknown CAN protocol: %d", hw_actuator_can_protocols_);
+                RCLCPP_ERROR(rclcpp::get_logger("Pi3HatHardwareInterface"), "Unknown CAN protocol", hw_actuator_can_protocols_);
                 break;
             }
         }
@@ -335,23 +342,25 @@ namespace pi3hat_hardware_interface
         {
             for (auto i = 0u; i < hw_state_positions_.size(); i++)
             {
+                // i is the index of the actuator in the hardware interface
                 for (auto j = 0u; j < result.rx_can_size; j++)
                 {
-                    switch (hw_actuator_can_protocols_)
+                    // j is the index of the can frame in the pi3hat input
+                    switch (hw_actuator_can_protocols_[i])
                     {
                     case CanProtocol::CHEETAH:
-                        int id = pi3hat_input_.rx_frames.at(j)[0];
+                        int id = pi3hat_input_.rx_can[j].data[0];
                         if (id == hw_actuator_can_ids_[i])
                         {
                             // parse the can frame
-                            int p_int = (pi3hat_input_.rx_frames.at(j)[1] << 8) | pi3hat_input_.rx_frames.at(j)[2];
-                            int v_int = (pi3hat_input_.rx_frames.at(j)[3] << 4) | (pi3hat_input_.rx_frames.at(j)[4] >> 4);
-                            int i_int = ((pi3hat_input_.rx_frames.at(j)[4] & 0xF) << 8) | pi3hat_input_.rx_frames.at(j)[5];
+                            int p_int = (pi3hat_input_.rx_can[j].data[1] << 8) | pi3hat_input_.rx_can[j].data[2];
+                            int v_int = (pi3hat_input_.rx_can[j].data[3] << 4) | (pi3hat_input_.rx_can[j].data[4] >> 4);
+                            int i_int = ((pi3hat_input_.rx_can[j].data[4] & 0xF) << 8) | pi3hat_input_.rx_can[j].data[5];
 
                             // convert unsigned ints to floats
-                            hw_state_positions_[i] = uint_to_float(p_int, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16) * hw_actuator_position_directions_[i] + hw_actuator_position_offsets_[i];
-                            hw_state_velocities_[i] = uint_to_float(v_int, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12) * hw_actuator_position_directions_[i];
-                            hw_state_efforts_[i] = uint_to_float(i_int, -hw_actuator_torque_scales_[i], hw_actuator_torque_scales_[i], 12) * hw_actuator_position_directions_[i];
+                            hw_state_positions_[i] = uint_to_float(p_int, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16) * hw_actuator_axis_directions_[i] + hw_actuator_position_offsets_[i];
+                            hw_state_velocities_[i] = uint_to_float(v_int, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12) * hw_actuator_axis_directions_[i];
+                            hw_state_efforts_[i] = uint_to_float(i_int, -hw_actuator_effort_scales_[i], hw_actuator_effort_scales_[i], 12) * hw_actuator_axis_directions_[i];
                         }
                         break;
                     }
@@ -363,7 +372,7 @@ namespace pi3hat_hardware_interface
     }
 
     int float_to_uint(float x, float x_min, float x_max,
-                      int bits) const
+                      int bits)
     {
         /// Converts a float to an unsigned int, given range and number of bits ///
         float span = x_max - x_min;
@@ -372,7 +381,7 @@ namespace pi3hat_hardware_interface
     }
 
     float uint_to_float(int x_int, float x_min, float x_max,
-                        int bits) const
+                        int bits)
     {
         /// converts unsigned int to float, given range and number of bits ///
         float span = x_max - x_min;

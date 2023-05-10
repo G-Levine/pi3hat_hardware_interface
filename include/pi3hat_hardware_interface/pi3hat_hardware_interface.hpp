@@ -49,9 +49,9 @@ namespace pi3hat_hardware_interface
 
     private:
         int float_to_uint(float x, float x_min, float x_max,
-                          int bits) const;
+                          int bits);
         float uint_to_float(int x_int, float x_min, float x_max,
-                            int bits) const;
+                            int bits);
 
         // Enum for CAN protocol types: cheetah, myactuator, or moteus
         enum class CanProtocol
