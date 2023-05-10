@@ -105,10 +105,40 @@ namespace pi3hat_hardware_interface
             pi3hat_input_.tx_can[i].id = hw_actuator_can_ids_[i];
             pi3hat_input_.tx_can[i].bus = hw_actuator_can_channels_[i];
             pi3hat_input_.tx_can[i].expect_reply = true;
+            pi3hat_input_.tx_can[i].size = 8;
         }
 
         // Initialize the Pi3Hat
         pi3hat_ = new mjbots::pi3hat::Pi3Hat(config);
+
+        // Configure realtime scheduling
+        {
+            int realtime_cpu = 0;
+            cpu_set_t cpuset = {};
+            CPU_ZERO(&cpuset);
+            CPU_SET(realtime_cpu, &cpuset);
+
+            const int r = ::sched_setaffinity(0, sizeof(cpu_set_t), &cpuset);
+            if (r < 0) {
+            throw std::runtime_error("Error setting CPU affinity");
+            }
+
+            std::cout << "Affinity set to " << realtime_cpu << "\n";
+        }
+        {
+            struct sched_param params = {};
+            params.sched_priority = 10;
+            const int r = ::sched_setscheduler(0, SCHED_RR, &params);
+            if (r < 0) {
+            throw std::runtime_error("Error setting realtime scheduler");
+            }
+        }
+        {
+            const int r = ::mlockall(MCL_CURRENT | MCL_FUTURE);
+            if (r < 0) {
+            throw std::runtime_error("Error locking memory");
+            }
+        }
 
         return hardware_interface::CallbackReturn::SUCCESS;
     }
