@@ -355,10 +355,28 @@ namespace pi3hat_hardware_interface
         // Update the IMU state if attitude data is available
         if (result.attitude_present)
         {
-            hw_state_imu_orientation_[0] = pi3hat_input_.attitude->attitude.x;
-            hw_state_imu_orientation_[1] = pi3hat_input_.attitude->attitude.y;
-            hw_state_imu_orientation_[2] = pi3hat_input_.attitude->attitude.z;
-            hw_state_imu_orientation_[3] = pi3hat_input_.attitude->attitude.w;
+            /* 
+            The quaternion returned by the pi3hat is the rotation from the gravity frame to the IMU frame.
+                Gravity frame:
+                    +x and +y are parallel to the ground
+                    +z points towards the ground
+                IMU frame:
+                    +x points towards the side of the Pi with the USB-C port
+                    +y points towards the side of the Pi with the USB-A ports
+                    +z points up from the Pi
+            However, we want the rotation from the world frame to the IMU frame.
+                World frame:
+                    +x and +y are parallel to the ground
+                    +z points towards the sky
+            Therefore, we need to rotate the quaternion returned by the pi3hat by 180 degrees about the x-axis or y-axis. We choose to rotate about the x-axis.
+            Let the quaternion returned by the pi3hat be (x, y, z, w).
+            After applying a 180-degree rotation about the x-axis, the new quaternion is:
+                (w, z, -y, -x)
+            */
+            hw_state_imu_orientation_[0] = pi3hat_input_.attitude->attitude.w; // x-component of the new quaternion
+            hw_state_imu_orientation_[1] = pi3hat_input_.attitude->attitude.z; // y-component of the new quaternion
+            hw_state_imu_orientation_[2] = -pi3hat_input_.attitude->attitude.y; // z-component of the new quaternion
+            hw_state_imu_orientation_[3] = -pi3hat_input_.attitude->attitude.x; // w-component of the new quaternion
             hw_state_imu_angular_velocity_[0] = pi3hat_input_.attitude->rate_dps.x * DEG_TO_RAD;
             hw_state_imu_angular_velocity_[1] = pi3hat_input_.attitude->rate_dps.y * DEG_TO_RAD;
             hw_state_imu_angular_velocity_[2] = pi3hat_input_.attitude->rate_dps.z * DEG_TO_RAD;

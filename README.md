@@ -93,3 +93,8 @@ This repository provides a ros2_control hardware interface for the [mjbots pi3ha
 - Problem: Sometimes fails to start with `Segmentation fault (Address not mapped to object [(nil)])`
 - Solution: Manually install ros2_control and associated packages from [this branch](https://github.com/schornakj/ros2_control/tree/pr-revert-922)
 - Explanation: The controller manager suffers from a race condition on Humble [as described here](https://github.com/ros-controls/ros2_control/issues/979). The fix for this has not been merged yet.
+
+## Debugging with GDB
+```sudo -E gdb --args /opt/ros/humble/lib/controller_manager/ros2_control_node --ros-args --params-file /tmp/launch_params_sdkq8suy --params-file /home/pi/ros2_ws/src/pi3hat_hardware_interface/test/test_state_publisher.yaml```
+
+```set environment LD_LIBRARY_PATH /home/pi/ros2_ws/install/transmission_interface/lib:/home/pi/ros2_ws/install/controller_manager/lib:/home/pi/ros2_ws/install/pi3hat_hardware_interface/lib:/home/pi/ros2_ws/install/controller_interface/lib:/home/pi/ros2_ws/install/hardware_interface/lib:/home/pi/ros2_ws/install/controller_manager_msgs/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib```
