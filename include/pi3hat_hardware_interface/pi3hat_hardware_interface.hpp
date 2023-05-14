@@ -18,6 +18,8 @@
 
 #include "pi3hat/pi3hat.h"
 
+#define MAX_NUM_CAN_FRAMES 12
+
 namespace pi3hat_hardware_interface
 {
     class Pi3HatHardwareInterface : public hardware_interface::SystemInterface
@@ -75,6 +77,9 @@ namespace pi3hat_hardware_interface
 
         mjbots::pi3hat::Pi3Hat *pi3hat_;
         mjbots::pi3hat::Pi3Hat::Input pi3hat_input_;
+        mjbots::pi3hat::Attitude attitude_;
+        mjbots::pi3hat::CanFrame tx_can_frames_[MAX_NUM_CAN_FRAMES];
+        mjbots::pi3hat::CanFrame rx_can_frames_[MAX_NUM_CAN_FRAMES];
 
         // IMU state
         std::array<double, 4> hw_state_imu_orientation_;         // x, y, z, w
