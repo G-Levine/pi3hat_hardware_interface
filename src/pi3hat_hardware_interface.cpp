@@ -371,11 +371,11 @@ namespace pi3hat_hardware_interface
             Therefore, we need to rotate the quaternion returned by the pi3hat by 180 degrees about the x-axis or y-axis. We choose to rotate about the x-axis.
             Let the quaternion returned by the pi3hat be (x, y, z, w).
             After applying a 180-degree rotation about the x-axis, the new quaternion is:
-                (w, z, -y, -x)
+                (w, -z, y, -x)
             */
             hw_state_imu_orientation_[0] = pi3hat_input_.attitude->attitude.w; // x-component of the new quaternion
-            hw_state_imu_orientation_[1] = pi3hat_input_.attitude->attitude.z; // y-component of the new quaternion
-            hw_state_imu_orientation_[2] = -pi3hat_input_.attitude->attitude.y; // z-component of the new quaternion
+            hw_state_imu_orientation_[1] = -pi3hat_input_.attitude->attitude.z; // y-component of the new quaternion
+            hw_state_imu_orientation_[2] = pi3hat_input_.attitude->attitude.y; // z-component of the new quaternion
             hw_state_imu_orientation_[3] = -pi3hat_input_.attitude->attitude.x; // w-component of the new quaternion
             hw_state_imu_angular_velocity_[0] = pi3hat_input_.attitude->rate_dps.x * DEG_TO_RAD;
             hw_state_imu_angular_velocity_[1] = pi3hat_input_.attitude->rate_dps.y * DEG_TO_RAD;
