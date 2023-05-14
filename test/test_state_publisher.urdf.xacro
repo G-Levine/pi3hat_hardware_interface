@@ -15,6 +15,28 @@
     </visual>
   </link>
 
+  <link name="link_1">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="3.0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual name="Cube">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.24 0.14 0.22"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="joint_1" type="revolute">
+    <origin xyz="0 -0.1 0" rpy="1.5708 1.5708 0"/>
+    <parent link="base_link"/>
+    <child link="link_1"/>
+    <axis xyz="0 0 1.0"/>
+    <limit lower="-1.39626" upper="-0.5236" effort="35.0" velocity="26.0"/>
+  </joint>
+
   <link name="imu">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -37,10 +59,10 @@
           <param name="imu_mounting_deg.roll">0</param>
       </hardware>
 
-      <joint name="joint1">
+      <joint name="joint_1">
           <param name="can_channel">1</param>
           <param name="can_id">1</param>
-          <param name="can_protocol">"cheetah"</param>
+          <param name="can_protocol">cheetah</param>
 
           <param name="position_scale">95.5</param>
           <param name="velocity_scale">30.0</param>

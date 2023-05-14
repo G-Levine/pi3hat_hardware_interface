@@ -19,10 +19,10 @@ This repository provides a ros2_control hardware interface for the [mjbots pi3ha
         <param name="imu_mounting_deg.roll">0</param>
     </hardware>
 
-    <joint name="joint1">
+    <joint name="joint_1">
         <param name="can_channel">1</param>
         <param name="can_id">1</param>
-        <param name="can_protocol">"cheetah"</param>
+        <param name="can_protocol">cheetah</param>
 
         <param name="position_scale">95.5</param>
         <param name="velocity_scale">30.0</param>
