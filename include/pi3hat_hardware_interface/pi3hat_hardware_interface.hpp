@@ -50,10 +50,16 @@ namespace pi3hat_hardware_interface
             const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
     private:
-        int float_to_uint(float x, float x_min, float x_max,
+        // Utility functions for converting between double and uint
+        int double_to_uint(double x, double x_min, double x_max,
                           int bits);
-        float uint_to_float(int x_int, float x_min, float x_max,
+        double uint_to_double(int x_int, double x_min, double x_max,
                             int bits);
+
+        // Utility functions for dealing with angle wrapping
+        double wrap_angle(double angle, double angle_min, double angle_max);
+        double unwrap_angle(double angle, double prev_angle, double angle_min,
+                           double angle_max);
 
         // Enum for CAN protocol types: cheetah, myactuator, or moteus
         enum class CanProtocol

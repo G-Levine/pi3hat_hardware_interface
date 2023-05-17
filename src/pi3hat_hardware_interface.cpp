@@ -316,28 +316,31 @@ namespace pi3hat_hardware_interface
             {
             case CanProtocol::CHEETAH:
                 {
-                    float p_des = hw_command_positions_[i] * hw_actuator_axis_directions_[i] - hw_actuator_position_offsets_[i];
-                    float v_des = hw_command_velocities_[i] * hw_actuator_axis_directions_[i];
-                    float tau_ff = hw_command_efforts_[i] * hw_actuator_axis_directions_[i];
+                    double p_des = hw_command_positions_[i] * hw_actuator_axis_directions_[i] - hw_actuator_position_offsets_[i];
+                    double v_des = hw_command_velocities_[i] * hw_actuator_axis_directions_[i];
+                    double tau_ff = hw_command_efforts_[i] * hw_actuator_axis_directions_[i];
+
+                    // Wrap position to the range [-hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]] to account for multiple rotations
+                    p_des = wrap_angle(p_des, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]);
 
                     // Apply Saturation based on the limits
                     p_des = fminf(fmaxf(-hw_actuator_position_scales_[i], p_des), hw_actuator_position_scales_[i]);
                     v_des = fminf(fmaxf(-hw_actuator_velocity_scales_[i], v_des), hw_actuator_velocity_scales_[i]);
                     tau_ff = fminf(fmaxf(-hw_actuator_effort_scales_[i], tau_ff), hw_actuator_effort_scales_[i]);
-                    float kp = fminf(fmaxf(0.0, hw_command_kps_[i]), hw_actuator_kp_scales_[i]);
-                    float kd = fminf(fmaxf(0.0, hw_command_kds_[i]), hw_actuator_kd_scales_[i]);
+                    double kp = fminf(fmaxf(0.0, hw_command_kps_[i]), hw_actuator_kp_scales_[i]);
+                    double kd = fminf(fmaxf(0.0, hw_command_kds_[i]), hw_actuator_kd_scales_[i]);
 
-                    // convert floats to unsigned ints
+                    // convert doubles to unsigned ints
                     int p_int =
-                        float_to_uint(p_des, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16);
+                        double_to_uint(p_des, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16);
                     int v_int =
-                        float_to_uint(v_des, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12);
+                        double_to_uint(v_des, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12);
                     int kp_int =
-                        float_to_uint(kp, 0.0, hw_actuator_kp_scales_[i], 12);
+                        double_to_uint(kp, 0.0, hw_actuator_kp_scales_[i], 12);
                     int kd_int =
-                        float_to_uint(kd, 0.0, hw_actuator_kd_scales_[i], 12);
+                        double_to_uint(kd, 0.0, hw_actuator_kd_scales_[i], 12);
                     int t_int =
-                        float_to_uint(tau_ff, -hw_actuator_effort_scales_[i], hw_actuator_effort_scales_[i], 12);
+                        double_to_uint(tau_ff, -hw_actuator_effort_scales_[i], hw_actuator_effort_scales_[i], 12);
 
                     // pack ints into the can message
                     pi3hat_input_.tx_can[i].data[0] = p_int >> 8;
@@ -421,10 +424,13 @@ namespace pi3hat_hardware_interface
                                 int v_int = (pi3hat_input_.rx_can[j].data[3] << 4) | (pi3hat_input_.rx_can[j].data[4] >> 4);
                                 int i_int = ((pi3hat_input_.rx_can[j].data[4] & 0xF) << 8) | pi3hat_input_.rx_can[j].data[5];
 
-                                // convert unsigned ints to floats
-                                hw_state_positions_[i] = uint_to_float(p_int, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16) * hw_actuator_axis_directions_[i] + hw_actuator_position_offsets_[i];
-                                hw_state_velocities_[i] = uint_to_float(v_int, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12) * hw_actuator_axis_directions_[i];
-                                hw_state_efforts_[i] = uint_to_float(i_int, -hw_actuator_effort_scales_[i], hw_actuator_effort_scales_[i], 12) * hw_actuator_axis_directions_[i];
+                                // convert unsigned ints to doubles
+                                double p_double = uint_to_double(p_int, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i], 16) * hw_actuator_axis_directions_[i] + hw_actuator_position_offsets_[i];
+                                hw_state_velocities_[i] = uint_to_double(v_int, -hw_actuator_velocity_scales_[i], hw_actuator_velocity_scales_[i], 12) * hw_actuator_axis_directions_[i];
+                                hw_state_efforts_[i] = uint_to_double(i_int, -hw_actuator_effort_scales_[i], hw_actuator_effort_scales_[i], 12) * hw_actuator_axis_directions_[i];
+
+                                // position is wrapped to the range [-hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]], so we need to unwrap it
+                                hw_state_positions_[i] = unwrap_angle(p_double, hw_state_positions_[i], -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]);
                             }
                             break;
                         }                            
@@ -443,22 +449,46 @@ namespace pi3hat_hardware_interface
         return hardware_interface::return_type::OK;
     }
 
-    int Pi3HatHardwareInterface::float_to_uint(float x, float x_min, float x_max,
+    int Pi3HatHardwareInterface::double_to_uint(double x, double x_min, double x_max,
                       int bits)
     {
-        /// Converts a float to an unsigned int, given range and number of bits ///
-        float span = x_max - x_min;
-        float offset = x_min;
-        return (int)((x - offset) * ((float)((1 << bits) - 1)) / span);
+        /// Converts a double to an unsigned int, given range and number of bits ///
+        double span = x_max - x_min;
+        double offset = x_min;
+        return (int)((x - offset) * ((double)((1 << bits) - 1)) / span);
     }
 
-    float Pi3HatHardwareInterface::uint_to_float(int x_int, float x_min, float x_max,
+    double Pi3HatHardwareInterface::uint_to_double(int x_int, double x_min, double x_max,
                         int bits)
     {
-        /// converts unsigned int to float, given range and number of bits ///
-        float span = x_max - x_min;
-        float offset = x_min;
-        return ((float)x_int) * span / ((float)((1 << bits) - 1)) + offset;
+        /// converts unsigned int to double, given range and number of bits ///
+        double span = x_max - x_min;
+        double offset = x_min;
+        return ((double)x_int) * span / ((double)((1 << bits) - 1)) + offset;
+    }
+
+    double Pi3HatHardwareInterface::wrap_angle(double angle, double angle_min, double angle_max)
+    {
+        /// Wraps an angle to the range [angle_min, angle_max] ///
+        double span = angle_max - angle_min;
+        return angle - span * floor((angle - angle_min) / span);
+    }
+
+    double Pi3HatHardwareInterface::unwrap_angle(double angle, double prev_angle, double angle_min, double angle_max)
+    {
+        /// Deals with wrap-around for a continuously changing angle ///
+        double span = angle_max - angle_min;
+        double prev_angle_wrapped = wrap_angle(prev_angle, angle_min, angle_max);
+        double d_angle = angle - prev_angle_wrapped;
+        if (d_angle > span / 2)
+        {
+            d_angle -= span;
+        }
+        else if (d_angle < -span / 2)
+        {
+            d_angle += span;
+        }
+        return prev_angle + d_angle;
     }
 
 } // namespace pi3hat_hardware_interface

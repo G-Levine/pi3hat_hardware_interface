@@ -87,12 +87,12 @@ This repository provides a ros2_control hardware interface for the [mjbots pi3ha
 
 ### Issue
 - Problem: `pi3hat: could not open /dev/mem`
-- Solution: `export FASTRTPS_DEFAULT_PROFILES_FILE=/home/pi/ros2_ws/src/pi3hat_hardware_interface/fastrtps_profile_no_shmem.xml` and launch the ros2_control node as root with `sudo -E  ~/ros2_ws/src/pi3hat_hardware_interface/run_as_root.sh ros2 launch ~/ros2_ws/src/pi3hat_hardware_interface/test/test_state_publisher.launch.py`
+- Solution: `export FASTRTPS_DEFAULT_PROFILES_FILE=/home/pi/ros2_ws/src/pi3hat_hardware_interface/fastrtps_profile_no_shmem.xml` and launch the ros2_control node as root with `sudo -E bash ~/ros2_ws/src/pi3hat_hardware_interface/run_as_root.sh ros2 launch ~/ros2_ws/src/pi3hat_hardware_interface/test/test_state_publisher.launch.py`
 - Explanation: The Pi3Hat library needs to be run as root to access the GPIO, but this prevents the FastDDS shared memory transport from working (no messages are published or received). Hence, we create a custom config file to force FastDDS to use UDP instead of shared memory.
 
 ### Issue
 - Problem: Sometimes fails to start with `Segmentation fault (Address not mapped to object [(nil)])`
-- Solution: Manually install ros2_control and associated packages from [this branch](https://github.com/schornakj/ros2_control/tree/pr-revert-922). Compile with `colcon build --allow-overriding controller_interface controller_manager hardware_interface ros2_control_test_assets`.
+- Solution: Manually install ros2_control and associated packages from [this branch](https://github.com/schornakj/ros2_control/tree/pr-revert-922). Compile with `colcon build --symlink-install --allow-overriding controller_interface controller_manager hardware_interface ros2_control_test_assets`.
 - Explanation: The controller manager suffers from a race condition on Humble [as described here](https://github.com/ros-controls/ros2_control/issues/979). The fix for this has not been merged yet.
 
 ## Debugging with GDB
