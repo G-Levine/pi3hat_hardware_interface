@@ -414,7 +414,7 @@ namespace pi3hat_hardware_interface
                     case CanProtocol::CHEETAH:
                         {
                             int can_id = pi3hat_input_.rx_can[j].data[0];
-                            if (can_id == hw_actuator_can_ids_[i])
+                            if (pi3hat_input_.rx_can[j].bus == hw_actuator_can_channels_[i] && can_id == hw_actuator_can_ids_[i])
                             {
                                 // parse the can frame
                                 int p_int = (pi3hat_input_.rx_can[j].data[1] << 8) | pi3hat_input_.rx_can[j].data[2];
