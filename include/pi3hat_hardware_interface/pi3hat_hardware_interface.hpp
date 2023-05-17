@@ -106,6 +106,14 @@ namespace pi3hat_hardware_interface
         std::vector<int> hw_actuator_axis_directions_;
         std::vector<double> hw_actuator_position_offsets_;
 
+        // Actuator limits
+        std::vector<double> hw_actuator_position_mins_; 
+        std::vector<double> hw_actuator_position_maxs_;
+        std::vector<double> hw_actuator_velocity_maxs_;
+        std::vector<double> hw_actuator_effort_maxs_;
+        std::vector<double> hw_actuator_kp_maxs_;
+        std::vector<double> hw_actuator_kd_maxs_;
+
         // Actuator states
         std::vector<double> hw_state_positions_;
         std::vector<double> hw_state_velocities_;

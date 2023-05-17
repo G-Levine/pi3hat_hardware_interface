@@ -32,26 +32,18 @@ This repository provides a ros2_control hardware interface for the [mjbots pi3ha
         <param name="axis_direction">-1</param>
         <param name="position_offset">0.0</param>
 
-        <command_interface name="position">
-            <param name="min">-1</param>
-            <param name="max">1</param>
-        </command_interface>
-        <command_interface name="velocity">
-            <param name="min">-1</param>
-            <param name="max">1</param>
-        </command_interface>
-        <command_interface name="effort">
-            <param name="min">-1</param>
-            <param name="max">1</param>
-        </command_interface>
-        <command_interface name="kp">
-            <param name="min">-1</param>
-            <param name="max">1</param>
-        </command_interface>
-        <command_interface name="kd">
-            <param name="min">-1</param>
-            <param name="max">1</param>
-        </command_interface>
+        <param name="position_min">-1.0</param>
+        <param name="position_max">1.0</param>
+        <param name="velocity_max">1.0</param>
+        <param name="effort_max">1.0</param>
+        <param name="kp_max">1.0</param>
+        <param name="kd_max">1.0</param>
+
+        <command_interface name="position"/>
+        <command_interface name="velocity"/>
+        <command_interface name="effort"/>
+        <command_interface name="kp"/>
+        <command_interface name="kd"/>
 
         <state_interface name="position"/>
         <state_interface name="velocity"/>
@@ -79,6 +71,7 @@ This repository provides a ros2_control hardware interface for the [mjbots pi3ha
 - `can_protocol`: Which protocol the actuator uses (only `cheetah` is implemented currently, works with driver boards running Mini Cheetah firmware such as SteadyWin and CubeMars)
 - `*_scale`, `axis_direction`: Needed for encoding and decoding numeric values from CAN messages
 - `position_offset`: Home position of the actuator in radians
+- `position_min`, `*_max`: User-defined safety limits for the command values
 
 ## Troubleshooting
 ### Issue

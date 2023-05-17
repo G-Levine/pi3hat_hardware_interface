@@ -62,6 +62,7 @@ namespace pi3hat_hardware_interface
                 return hardware_interface::CallbackReturn::ERROR;
             }
 
+            // Set params for each joint
             hw_actuator_can_channels_.push_back(std::stoi(joint.parameters.at("can_channel")));
             hw_actuator_can_ids_.push_back(std::stoi(joint.parameters.at("can_id")));
             hw_actuator_position_scales_.push_back(std::stod(joint.parameters.at("position_scale")));
@@ -71,6 +72,14 @@ namespace pi3hat_hardware_interface
             hw_actuator_kd_scales_.push_back(std::stod(joint.parameters.at("kd_scale")));
             hw_actuator_axis_directions_.push_back(std::stoi(joint.parameters.at("axis_direction")));
             hw_actuator_position_offsets_.push_back(std::stod(joint.parameters.at("position_offset")));
+
+            // Set limits for each joint
+            hw_actuator_position_mins_.push_back(std::stod(joint.parameters.at("position_min")));
+            hw_actuator_position_maxs_.push_back(std::stod(joint.parameters.at("position_max")));
+            hw_actuator_velocity_maxs_.push_back(std::stod(joint.parameters.at("velocity_max")));
+            hw_actuator_effort_maxs_.push_back(std::stod(joint.parameters.at("effort_max")));
+            hw_actuator_kp_maxs_.push_back(std::stod(joint.parameters.at("kp_max")));
+            hw_actuator_kd_maxs_.push_back(std::stod(joint.parameters.at("kd_max")));
         }
 
         // Configure the Pi3Hat CAN for non-FD mode without bitrate switching or automatic retranmission
@@ -319,16 +328,25 @@ namespace pi3hat_hardware_interface
                     double p_des = hw_command_positions_[i] * hw_actuator_axis_directions_[i] - hw_actuator_position_offsets_[i];
                     double v_des = hw_command_velocities_[i] * hw_actuator_axis_directions_[i];
                     double tau_ff = hw_command_efforts_[i] * hw_actuator_axis_directions_[i];
+                    double kp = hw_command_kps_[i];
+                    double kd = hw_command_kds_[i];
 
                     // Wrap position to the range [-hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]] to account for multiple rotations
                     p_des = wrap_angle(p_des, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]);
 
-                    // Apply Saturation based on the limits
+                    // constrain commands to the user-defined limits
+                    p_des = fminf(fmaxf(hw_actuator_position_mins_[i], p_des), hw_actuator_position_maxs_[i]);
+                    v_des = fminf(fmaxf(-hw_actuator_velocity_maxs_[i], v_des), hw_actuator_velocity_maxs_[i]);
+                    tau_ff = fminf(fmaxf(-hw_actuator_effort_maxs_[i], tau_ff), hw_actuator_effort_maxs_[i]);
+                    kp = fminf(fmaxf(0.0, kp), hw_actuator_kp_maxs_[i]);
+                    kd = fminf(fmaxf(0.0, kd), hw_actuator_kd_maxs_[i]);
+
+                    // constrain commands to the permissible values for the CAN protocol
                     p_des = fminf(fmaxf(-hw_actuator_position_scales_[i], p_des), hw_actuator_position_scales_[i]);
                     v_des = fminf(fmaxf(-hw_actuator_velocity_scales_[i], v_des), hw_actuator_velocity_scales_[i]);
                     tau_ff = fminf(fmaxf(-hw_actuator_effort_scales_[i], tau_ff), hw_actuator_effort_scales_[i]);
-                    double kp = fminf(fmaxf(0.0, hw_command_kps_[i]), hw_actuator_kp_scales_[i]);
-                    double kd = fminf(fmaxf(0.0, hw_command_kds_[i]), hw_actuator_kd_scales_[i]);
+                    kp = fminf(fmaxf(0.0, kp), hw_actuator_kp_scales_[i]);
+                    kd = fminf(fmaxf(0.0, kd), hw_actuator_kd_scales_[i]);
 
                     // convert doubles to unsigned ints
                     int p_int =
