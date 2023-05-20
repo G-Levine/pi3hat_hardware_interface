@@ -325,21 +325,21 @@ namespace pi3hat_hardware_interface
             {
             case CanProtocol::CHEETAH:
                 {
-                    double p_des = hw_command_positions_[i] * hw_actuator_axis_directions_[i] - hw_actuator_position_offsets_[i];
-                    double v_des = hw_command_velocities_[i] * hw_actuator_axis_directions_[i];
-                    double tau_ff = hw_command_efforts_[i] * hw_actuator_axis_directions_[i];
-                    double kp = hw_command_kps_[i];
-                    double kd = hw_command_kds_[i];
+                    // constrain commands to the user-defined limits
+                    double p_des = fminf(fmaxf(hw_actuator_position_mins_[i], hw_command_positions_[i]), hw_actuator_position_maxs_[i]);
+                    double v_des = fminf(fmaxf(-hw_actuator_velocity_maxs_[i], hw_command_velocities_[i]), hw_actuator_velocity_maxs_[i]);
+                    double tau_ff = fminf(fmaxf(-hw_actuator_effort_maxs_[i], hw_command_efforts_[i]), hw_actuator_effort_maxs_[i]);
+                    double kp = fminf(fmaxf(0.0, hw_command_kps_[i]), hw_actuator_kp_maxs_[i]);
+                    double kd = fminf(fmaxf(0.0, hw_command_kds_[i]), hw_actuator_kd_maxs_[i]);
+
+                    // compensate for axis directions and offsets
+                    p_des = (p_des - hw_actuator_position_offsets_[i]) * hw_actuator_axis_directions_[i];
+                    v_des = v_des * hw_actuator_axis_directions_[i];
+                    tau_ff = tau_ff * hw_actuator_axis_directions_[i];
 
                     // Wrap position to the range [-hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]] to account for multiple rotations
                     p_des = wrap_angle(p_des, -hw_actuator_position_scales_[i], hw_actuator_position_scales_[i]);
 
-                    // constrain commands to the user-defined limits
-                    p_des = fminf(fmaxf(hw_actuator_position_mins_[i], p_des), hw_actuator_position_maxs_[i]);
-                    v_des = fminf(fmaxf(-hw_actuator_velocity_maxs_[i], v_des), hw_actuator_velocity_maxs_[i]);
-                    tau_ff = fminf(fmaxf(-hw_actuator_effort_maxs_[i], tau_ff), hw_actuator_effort_maxs_[i]);
-                    kp = fminf(fmaxf(0.0, kp), hw_actuator_kp_maxs_[i]);
-                    kd = fminf(fmaxf(0.0, kd), hw_actuator_kd_maxs_[i]);
 
                     // constrain commands to the permissible values for the CAN protocol
                     p_des = fminf(fmaxf(-hw_actuator_position_scales_[i], p_des), hw_actuator_position_scales_[i]);
