@@ -147,7 +147,18 @@ namespace pi3hat_hardware_interface
             }
         }
 
-        sleep(2);
+        for (auto i = 0u; i < hw_state_positions_.size(); i++)
+        {
+            switch (hw_actuator_can_protocols_[i])
+            {
+            case CanProtocol::CHEETAH:
+                std::copy(std::begin(cheetahSetIdleCmdMsg), std::end(cheetahSetIdleCmdMsg), std::begin(pi3hat_input_.tx_can[i].data));
+                break;
+            }
+        }
+        pi3hat_->Cycle(pi3hat_input_);
+        sleep(1);
+
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
             switch (hw_actuator_can_protocols_[i])
@@ -160,8 +171,12 @@ namespace pi3hat_hardware_interface
                 return hardware_interface::CallbackReturn::ERROR;
             }
         }
-        pi3hat_->Cycle(pi3hat_input_);
-        sleep(2);
+        // cycle 3 times to ensure the zero position is set
+        for (auto i = 0u; i < 3; i++)
+        {
+            pi3hat_->Cycle(pi3hat_input_);
+            sleep(1);
+        }
 
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
@@ -176,7 +191,7 @@ namespace pi3hat_hardware_interface
             }
         }
         pi3hat_->Cycle(pi3hat_input_);
-        sleep(2);
+        sleep(1);
 
         return hardware_interface::CallbackReturn::SUCCESS;
     }
@@ -285,7 +300,7 @@ namespace pi3hat_hardware_interface
             }
         }
         pi3hat_->Cycle(pi3hat_input_);
-        sleep(2);
+        sleep(1);
         for (auto i = 0u; i < hw_state_positions_.size(); i++)
         {
             switch (hw_actuator_can_protocols_[i])
@@ -296,7 +311,7 @@ namespace pi3hat_hardware_interface
             }
         }
         pi3hat_->Cycle(pi3hat_input_);
-        sleep(2);
+        sleep(1);
 
         RCLCPP_INFO(rclcpp::get_logger("Pi3HatHardwareInterface"), "Successfully deactivated!");
 
